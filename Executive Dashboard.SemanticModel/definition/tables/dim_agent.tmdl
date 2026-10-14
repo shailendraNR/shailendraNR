@@ -1,0 +1,111 @@
+table dim_agent
+	lineageTag: 6806538f-ac0f-4a18-be4a-8961e05263b8
+
+	column agent_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cb4b0990-44ac-439d-abc5-a885d397b01d
+		summarizeBy: none
+		sourceColumn: agent_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agent_code
+		dataType: string
+		lineageTag: bdc847e2-494c-4baa-b02f-362823ac3c0c
+		summarizeBy: none
+		sourceColumn: agent_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column agent_name
+		dataType: string
+		lineageTag: 189a1d96-9c2c-40c5-a116-b6bd2dae8d6c
+		summarizeBy: none
+		sourceColumn: agent_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 43814296-6369-4f5b-bf97-2bf787f91da3
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column territory
+		dataType: string
+		lineageTag: 94ef555b-ed1d-4a83-a45c-4fb096c9fbd0
+		summarizeBy: none
+		sourceColumn: territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column office
+		dataType: string
+		lineageTag: 615afd70-90dc-49ef-bac2-93ffc5880bb4
+		summarizeBy: none
+		sourceColumn: office
+
+		annotation SummarizationSetBy = Automatic
+
+	column join_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 81c08727-66df-481d-978e-31363fd332c9
+		summarizeBy: none
+		sourceColumn: join_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel
+		dataType: string
+		lineageTag: 371ec069-a45f-4451-b922-41035581563b
+		summarizeBy: none
+		sourceColumn: channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column active_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ab2270f-eb73-409c-8ec5-863ae60fa1a4
+		summarizeBy: sum
+		sourceColumn: active_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_agent = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI Assignment\data\dim_agent.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"agent_id", Int64.Type}, {"agent_code", type text}, {"agent_name", type text}, {"region", type text}, {"territory", type text}, {"office", type text}, {"join_date", type date}, {"channel", type text}, {"active_flag", Int64.Type}}),
+				    unknowenrecord=#table(type table
+				    [agent_id = Int64.Type,
+				    agent_code = text,
+				    agent_name = text,
+				    region = text,
+				    territory= text,
+				    office= text,
+				    join_date = date,
+				    channel = text,
+				    active_flag = Int64.Type
+				    ],
+				    {
+				        {-1,"Unknown","Unknown","Unknown","Unknown","Unknown","01/01/1900","Unknown",1}
+				    }),
+				    finaltable=Table.Combine({unknowenrecord,#"Changed Type"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(finaltable,{{"join_date", type date}})
+				
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

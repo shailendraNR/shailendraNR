@@ -1,0 +1,62 @@
+table fact_target
+	lineageTag: 4ef86329-8cf0-4b83-a50b-f9ba5dc6933a
+
+	column agent_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 05db3fb2-d10f-4305-a1d6-f893f0cac8a2
+		summarizeBy: none
+		sourceColumn: agent_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 30ec936f-393e-4b8f-8f18-6137f37a4f58
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 4cfbb47c-d504-409a-8d49-550f2c094aec
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column ape_target_usd
+		dataType: double
+		lineageTag: de619326-27fd-4cf5-94d5-ce2406c6b50b
+		summarizeBy: sum
+		sourceColumn: ape_target_usd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date_Key = FORMAT(DATE(fact_target[year],fact_target[month],1),"yyyymmdd")
+		dataType: int64
+		formatString: 0
+		lineageTag: 37aed368-5acc-4cca-88ed-0645b0890836
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_target = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI Assignment\data\fact_target.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"agent_id", Int64.Type}, {"year", Int64.Type}, {"month", Int64.Type}, {"ape_target_usd", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

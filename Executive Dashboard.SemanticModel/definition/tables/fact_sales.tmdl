@@ -1,0 +1,114 @@
+table fact_sales
+	lineageTag: e7239f0e-7c5d-432c-b570-12f0f9498d42
+
+	column sale_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cb07576-d150-4ca5-947e-10f1c97218c0
+		summarizeBy: sum
+		sourceColumn: sale_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 790e6197-0c8c-4c90-850f-e4fd420c6de4
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agent_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cc06d4b1-0d05-41a4-8822-9f58a2f0595b
+		summarizeBy: sum
+		sourceColumn: agent_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5188edb1-0852-4c68-9962-283ebb536f3d
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ape_usd
+		dataType: double
+		lineageTag: 69eac991-a27b-4856-bfe7-0780ec3fe403
+		summarizeBy: sum
+		sourceColumn: ape_usd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fyp_usd
+		dataType: double
+		lineageTag: d798efc9-f3cc-4409-9a28-482e7cf450e4
+		summarizeBy: sum
+		sourceColumn: fyp_usd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column policies_issued
+		dataType: int64
+		formatString: 0
+		lineageTag: 01a08ef8-a2e4-4649-a228-9a01d79becf1
+		summarizeBy: sum
+		sourceColumn: policies_issued
+
+		annotation SummarizationSetBy = Automatic
+
+	column sale_channel
+		dataType: string
+		lineageTag: 1f064239-a5cb-4f3b-9a60-05a6e8029aad
+		summarizeBy: none
+		sourceColumn: sale_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agent_Id_Clean
+		dataType: double
+		lineageTag: d05ecf49-dda2-4632-bac0-05585614bcf1
+		summarizeBy: none
+		sourceColumn: Agent_Id_Clean
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date_key_month = LEFT(fact_sales[date_key],6)&"01"
+		dataType: int64
+		formatString: 0
+		lineageTag: cb1360fa-0ef6-4bcd-a5bc-a5cde237849f
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI Assignment\data\fact_sales.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"sale_id", Int64.Type}, {"date_key", Int64.Type}, {"agent_id", Int64.Type}, {"product_id", Int64.Type}, {"ape_usd", type number}, {"fyp_usd", type number}, {"policies_issued", Int64.Type}, {"sale_channel", type text}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"agent_id"}, dim_agent, {"agent_id"}, "dim_agent", JoinKind.LeftOuter),
+				    #"Expanded dim_agent" = Table.ExpandTableColumn(#"Merged Queries", "dim_agent", {"agent_id"}, {"dim_agent.agent_id"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Expanded dim_agent",null,-1,Replacer.ReplaceValue,{"dim_agent.agent_id"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value",{{"dim_agent.agent_id", "Agent_Id_Clean"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

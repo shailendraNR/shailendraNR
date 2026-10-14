@@ -1,0 +1,166 @@
+table DAX
+	lineageTag: 87d13ee7-70f3-458b-ba47-f3bda65ab959
+
+	measure 'APE YTD' = ```
+			
+			CALCULATE([APE],DATESYTD(dim_date[date]))
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: KPI's
+		lineageTag: 92b4b6ea-38df-4fdc-ad32-918d475bca48
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'APE MOM Growth %' =
+			IF(ISBLANK([APE Previous Month]),BLANK(),
+			DIVIDE(([APE MTD]-[APE Previous Month]),[APE Previous Month],0))
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: KPI's
+		lineageTag: e534d1ba-8c45-4abf-9b43-3b4c6a469db6
+
+	measure APE = SUM(fact_sales[ape_usd])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Others
+		lineageTag: a26365b6-d712-42bd-a576-969c42814430
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'APE MTD' =
+			
+			CALCULATE([APE],DATESMTD(dim_date[date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Others
+		lineageTag: 92aedac2-0d9f-44a8-a07f-5a99bd2a51b7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'APE Previous Month' =
+			
+			CALCULATE([APE],DATESMTD(DATEADD(dim_date[date],-1,MONTH)))
+		displayFolder: Others
+		lineageTag: 55953735-6d95-4502-9c69-a997094cc886
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'APE Rolling 3 Months' = CALCULATE([APE],DATESINPERIOD(dim_date[date],MAX(dim_date[date]),-3,MONTH))
+		displayFolder: KPI's
+		lineageTag: af4f2d45-871e-4b73-acf4-5143ce97cc65
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YTD APE vs Target %' = DIVIDE([APE YTD],[APE Target YTD],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: KPI's
+		lineageTag: 968d02c4-c89e-4a8b-9f74-8e0b32bbfa2b
+
+	measure 'APE Target YTD' = CALCULATE([APE Target],DATESYTD(dim_date[date]))
+		displayFolder: Others
+		lineageTag: c239c5c0-3071-4f02-a0ac-bdb6f8cbd31f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Persistency Rate' =
+			
+			var Total_Due_Policies=CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status] IN {"renewed", "lapsed", "grace"})
+			var Renewed_Policies= CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="renewed")
+			RETURN
+			DIVIDE(Renewed_Policies,Total_Due_Policies,0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: KPI's
+		lineageTag: b1158707-2582-47d3-941d-a258044c9688
+
+	measure 'Active Agent Count' = CALCULATE(DISTINCTCOUNT(dim_agent[agent_code]),dim_agent[active_flag]=1)
+		formatString: 0
+		displayFolder: KPI's
+		lineageTag: 7d46e308-bd8f-4b50-b4f7-5e64ef69fa0e
+
+	measure 'Active Policy Count' = CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="Renewed")
+		formatString: 0
+		displayFolder: KPI's
+		lineageTag: b983964c-18c9-4242-b1e9-2dbc59785ea2
+
+	measure 'APE Target' = SUM(fact_target[ape_target_usd])
+		displayFolder: Others
+		lineageTag: 4f6a96e7-69b7-411f-bc35-a168472e8c62
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'APE Average MOM Growth %' =
+			
+			AVERAGEX(VALUES(dim_date[month_name]),[APE MOM Growth %])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Others
+		lineageTag: ce1feeb9-1998-46ef-9bdf-00a9f52d59d0
+
+	measure 'APE Target MTD' = CALCULATE([APE Target],DATESMTD(dim_date[date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Others
+		lineageTag: f613b06a-3bfe-4766-a4d0-dbee3c8f83be
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'MTD APE vs Target %' = DIVIDE([APE MTD],[APE Target MTD],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: KPI's
+		lineageTag: ca73af8d-908f-4ead-923d-3c8ba86815d7
+
+	measure 'Agent Rank by APE' = ```
+			
+			
+			RANKX(
+			    ALLSELECTED(dim_agent), 
+			    [APE], 
+			    , 
+			    DESC, 
+			    Dense
+			)
+			```
+		formatString: 0
+		displayFolder: KPI's
+		lineageTag: f21e6263-8c03-43b0-bc87-06c7fb05cd1b
+
+	measure 'Last Refreshed On' = FIRSTDATE('Last Refreshed On'[Date Last Refreshed])
+		formatString: General Date
+		displayFolder: Others
+		lineageTag: 0dfcb1f5-151b-41e0-b402-d95aab24755d
+
+	measure 'Renewed Policy Count' = CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="Renewed")
+		formatString: 0
+		displayFolder: Others
+		lineageTag: e1145cde-daa7-4e12-8333-243e49a7e411
+
+	measure 'Grace Policy Count' =
+			
+			CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="grace")
+		formatString: 0
+		displayFolder: Others
+		lineageTag: 30d17623-b0cc-48d1-8725-a374d21f2a70
+
+	measure 'Lapse Policy Count' =
+			
+			CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="lapsed")
+		formatString: 0
+		displayFolder: Others
+		lineageTag: 35b3b86b-bbe1-435b-9276-608adf1c5c3c
+
+	measure 'Renewed Policy Count on Issue Year' = CALCULATE(COUNTROWS(fact_persistency),fact_persistency[renewal_status]="Renewed",USERELATIONSHIP(dim_date[date_key],fact_persistency[issue_date_key]))
+		formatString: 0
+		lineageTag: 331ee3de-301d-48d3-a640-aabc6be74251
+
+	partition DAX = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,223 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "d2e4b8a338a2c3cdd05a",
+  "position": {
+    "x": 1404.5922601268992,
+    "y": 212.27594891748333,
+    "z": 7000,
+    "height": 823.31325982014573,
+    "width": 480.10074428066326,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Month-Year"
+                }
+              },
+              "queryRef": "dim_date.Month-Year",
+              "nativeQueryRef": "Month-Year"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DAX"
+                    }
+                  },
+                  "Property": "APE Target MTD"
+                }
+              },
+              "queryRef": "DAX.APE Target MTD",
+              "nativeQueryRef": "APE Target MTD"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DAX"
+                    }
+                  },
+                  "Property": "APE MTD"
+                }
+              },
+              "queryRef": "DAX.APE MTD",
+              "nativeQueryRef": "APE MTD"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_date"
+                  }
+                },
+                "Property": "Month-Year"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\r\n  \"data\": {\r\n    \"name\": \"dataset\"\r\n  },\r\n  \"height\": {\r\n    \"step\": 35\r\n  },\r\n  \"encoding\": {\r\n    \"y\": {\r\n      \"field\": \"Month-Year\",\r\n      \"type\": \"nominal\",\r\n      \"sort\": {\r\n        \"op\": \"sum\",\r\n        \"field\": \"APE MTD\",\r\n        \"order\": \"descending\"\r\n      },\r\n      \"title\": null,\r\n      \"axis\": {\r\n        \"bandPosition\": 0,\r\n        \"grid\": false,\r\n        \"domain\": false,\r\n        \"ticks\": false,\r\n        \"labelAlign\": \"left\",\r\n        \"labelBaseline\": \"middle\",\r\n        \"labelPadding\": -1,\r\n        \"labelOffset\": -15,\r\n        \"titleX\": 5,\r\n        \"titleY\": -5,\r\n        \"titleAngle\": 0,\r\n        \"titleAlign\": \"left\",\r\n        \"zindex\": 1,\r\n        \"blend\": \"luminosity\",\r\n        \"labelColor\": {\r\n          \"expr\": \"luminance ( scale ( ''color'', datum[''Month-Yearviews''] ) ) > 0.5 ? ''white'' : ''black''\"\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"layer\": [\r\n    {\r\n      \"mark\": {\r\n        \"type\": \"bar\",\r\n        \"cornerRadiusEnd\": 4,\r\n        \"height\": {\r\n          \"band\": 0.5\r\n        },\r\n        \"tooltip\": true\r\n      },\r\n      \"encoding\": {\r\n        \"x\": {\r\n          \"field\": \"APE Target MTD\",\r\n          \"type\": \"quantitative\",\r\n          \"title\": null,\r\n          \"axis\": null\r\n        },\r\n        \"color\": {\r\n          \"value\": \"lightgrey\",\r\n          \"legend\": null,\r\n          \"type\": \"quantitative\",\r\n          \"title\": \"\"\r\n        },\r\n        \"opacity\": {\r\n          \"condition\": {\r\n            \"test\": {\r\n              \"field\": \"__selected__\",\r\n              \"equal\": \"off\"\r\n            },\r\n            \"value\": 0.3\r\n          }\r\n        }\r\n      }\r\n    },\r\n    {\r\n      \"mark\": {\r\n        \"type\": \"bar\",\r\n        \"cornerRadiusEnd\": 4,\r\n        \"height\": {\r\n          \"band\": 0.5\r\n        },\r\n        \"tooltip\": true\r\n      },\r\n      \"encoding\": {\r\n        \"x\": {\r\n          \"field\": \"APE MTD\",\r\n          \"type\": \"quantitative\",\r\n          \"title\": null,\r\n          \"axis\": null\r\n        },\r\n        \"color\": {\r\n          \"scale\": {\r\n            \"range\": [\r\n              \"Yellow\",\r\n              \"Navy\"\r\n            ]\r\n          },\r\n          \"legend\": null,\r\n          \"field\": \"APE MTD\",\r\n          \"type\": \"quantitative\",\r\n          \"title\": \"\"\r\n        },\r\n        \"opacity\": {\r\n          \"condition\": {\r\n            \"test\": {\r\n              \"field\": \"__selected__\",\r\n              \"equal\": \"off\"\r\n            },\r\n            \"value\": 0.3\r\n          }\r\n        }\r\n      }\r\n    },\r\n    {\r\n      \"mark\": {\r\n        \"type\": \"text\",\r\n        \"align\": \"left\",\r\n        \"xOffset\": 10,\r\n        \"x\": \"width\",\r\n        \"fontWeight\": \"Bold\",\r\n        \"aria\": false\r\n      },\r\n      \"encoding\": {\r\n        \"text\": {\r\n          \"field\": \"APE MTD\",\r\n          \"format\": \",.0f\"\r\n        },\r\n        \"x\": {\r\n          \"field\": \"APE Target MTD\",\r\n          \"type\": \"quantitative\",\r\n          \"title\": null,\r\n          \"axis\": null\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"autosize\": {\n    \"type\": \"fit\",\n    \"contains\": \"padding\"\n  },\n  \"padding\": {\n    \"left\": 5,\n    \"top\": 20,\n    \"right\": 15,\n    \"bottom\": 50\n  },\n  \"view\": {\n    \"stroke\": \"transparent\"\n  },\n  \"font\": \"Segoe UI\",\n  \"axis\": {\n    \"grid\": false,\n    \"domain\": false\n  },\n  \"legend\": {\n    \"gradientLength\": 50\n  }\n}'"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenuSelector": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "selectionMaxDataPoints": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            },
+            "selectionMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'simple'"
+                }
+              }
+            },
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'6.4.3'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stateManagement": [
+        {
+          "properties": {
+            "denebMetaVersion": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2'"
+                }
+              }
+            },
+            "supportFieldConfiguration": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"Month-Year\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":false,\"formatted\":false,\"names\":false},\"APE Target MTD\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false},\"APE MTD\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false}}'"
+                }
+              }
+            },
+            "consolidateFieldParameters": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "viewportHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "791D"
+                }
+              }
+            },
+            "viewportWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "446D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "developer": [
+        {
+          "properties": {
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2.0.0.0'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

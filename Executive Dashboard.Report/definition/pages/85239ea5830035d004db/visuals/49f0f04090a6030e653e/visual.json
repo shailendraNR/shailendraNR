@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "49f0f04090a6030e653e",
+  "position": {
+    "x": 30.547407149604737,
+    "y": 20.364938099736491,
+    "z": 4000,
+    "height": 36.656888579525678,
+    "width": 266.780689106548,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Report Filters",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#12239e"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "94709dba072d699eb307"
+}

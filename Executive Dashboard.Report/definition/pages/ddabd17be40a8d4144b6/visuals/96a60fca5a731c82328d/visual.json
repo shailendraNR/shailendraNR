@@ -1,0 +1,223 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "96a60fca5a731c82328d",
+  "position": {
+    "x": 323.37364180887647,
+    "y": 212.27594891748333,
+    "z": 8000,
+    "height": 823.31325982014573,
+    "width": 1059.3958572143561,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DAX"
+                    }
+                  },
+                  "Property": "MTD APE vs Target %"
+                }
+              },
+              "queryRef": "DAX.MTD APE vs Target %",
+              "nativeQueryRef": "MTD APE vs Target %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_agent"
+                    }
+                  },
+                  "Property": "agent_name"
+                }
+              },
+              "queryRef": "dim_agent.agent_name",
+              "nativeQueryRef": "agent_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Month-Year"
+                }
+              },
+              "queryRef": "dim_date.Month-Year",
+              "nativeQueryRef": "Month-Year"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DAX"
+                  }
+                },
+                "Property": "MTD APE vs Target %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\r\n  \"data\": {\r\n    \"name\": \"dataset\"\r\n  },\r\n  \"spacing\": 15,\r\n  \"bounds\": \"flush\",\r\n  \"vconcat\": [\r\n    {\r\n      \"height\": 60,\r\n      \"mark\": {\r\n        \"type\": \"bar\",\r\n        \"stroke\": null,\r\n        \"cornerRadiusEnd\": 2,\r\n        \"tooltip\": true,\r\n        \"color\": \"lightgrey\"\r\n      },\r\n      \"encoding\": {\r\n        \"x\": {\r\n          \"field\": \"agent_name\",\r\n          \"axis\": null\r\n        },\r\n        \"y\": {\r\n          \"field\": \"MTD APE vs Target %\",\r\n          \"aggregate\": \"mean\",\r\n          \"axis\": null\r\n        }\r\n      }\r\n    },\r\n    {\r\n      \"spacing\": 15,\r\n      \"bounds\": \"flush\",\r\n      \"hconcat\": [\r\n        {\r\n          \"mark\": {\r\n            \"type\": \"rect\",\r\n            \"stroke\": \"white\",\r\n            \"tooltip\": true\r\n          },\r\n          \"encoding\": {\r\n            \"y\": {\r\n              \"field\": \"Month-Year\",\r\n              \"type\": \"ordinal\",\r\n              \"title\": \"Month\",\r\n              \"axis\": {\r\n                \"domain\": false,\r\n                \"ticks\": false,\r\n                \"labels\": true,\r\n                \"labelAngle\": 0,\r\n                \"labelPadding\": 5\r\n              }\r\n            },\r\n            \"x\": {\r\n              \"field\": \"agent_name\",\r\n              \"type\": \"ordinal\",\r\n              \"title\": \"Day\",\r\n              \"axis\": {\r\n                \"domain\": false,\r\n                \"ticks\": false,\r\n                \"labels\": true,\r\n                \"labelAngle\": 0\r\n              }\r\n            },\r\n            \"color\": {\r\n              \"aggregate\": \"mean\",\r\n              \"field\": \"MTD APE vs Target %\",\r\n              \"type\": \"quantitative\",\r\n              \"title\": \"Mean Births\",\r\n              \"legend\": {\r\n                \"direction\": \"vertical\",\r\n                \"gradientLength\": 120\r\n              }\r\n            }\r\n          }\r\n        },\r\n        {\r\n          \"mark\": {\r\n            \"type\": \"bar\",\r\n            \"stroke\": null,\r\n            \"cornerRadiusEnd\": 2,\r\n            \"tooltip\": true,\r\n            \"color\": \"lightgrey\"\r\n          },\r\n          \"width\": 60,\r\n          \"encoding\": {\r\n            \"y\": {\r\n              \"field\": \"Month-Year\",\r\n              \"axis\": null\r\n            },\r\n            \"x\": {\r\n              \"field\": \"MTD APE vs Target %\",\r\n              \"type\": \"quantitative\",\r\n              \"aggregate\": \"mean\",\r\n              \"axis\": null\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"autosize\": {\n    \"type\": \"fit\",\n    \"contains\": \"padding\"\n  },\n  \"view\": {\n    \"stroke\": \"transparent\"\n  }\n}'"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenuSelector": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selectionMaxDataPoints": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            },
+            "selectionMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'simple'"
+                }
+              }
+            },
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'6.4.3'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stateManagement": [
+        {
+          "properties": {
+            "denebMetaVersion": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2'"
+                }
+              }
+            },
+            "supportFieldConfiguration": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"agent_name\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":false,\"formatted\":false,\"names\":false},\"Month-Year\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":false,\"formatted\":false,\"names\":false},\"MTD APE vs Target %\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false}}'"
+                }
+              }
+            },
+            "consolidateFieldParameters": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "viewportHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "791D"
+                }
+              }
+            },
+            "viewportWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1025D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "developer": [
+        {
+          "properties": {
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2.0.0.0'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

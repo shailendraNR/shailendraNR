@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.8.0/schema.json",
+  "position": {
+    "x": 58,
+    "y": 0,
+    "z": 4000,
+    "height": 59,
+    "width": 266,
+    "tabOrder": 4000
+  },
+  "objects": {
+    "general": [
+      {
+        "properties": {
+          "paragraphs": [
+            {
+              "textRuns": [
+                {
+                  "value": "Executive Summary",
+                  "textStyle": {
+                    "fontSize": "20pt",
+                    "color": "#000000"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
